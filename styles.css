@@ -153,7 +153,7 @@ button:hover {
     flex-direction: column;
   }
 
-  #botones-ataque {
+  #contenedor-ataques {
     display: flex;
     flex-direction: column;
   }
