@@ -2,6 +2,9 @@ const sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
 const contenedorTarjetas = document.getElementById('contenedor-tarjetas')
 const botonMascotaJugador = document.getElementById('boton-seleccionar-mascota')
 
+const sectionVerMapa = document.getElementById('ver-mapa')
+const mapa = document.getElementById('mapa')
+
 const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
 const spanMascotaJugador = document.getElementById('mascota-jugador')
 const imgMascotaJugador = document.getElementById('img-mascota-jugador')
@@ -41,6 +44,9 @@ let secuenciaAtaquesEnemigo = []
 let victoriasJugador = 0
 let victoriasEnemigo = 0
 
+let lienzo = mapa.getContext("2d")
+let intervalo
+
 // las clases siempre inician con mayúscula como regla general
 //Creamos la clase Mokepon, y en su contrucctor ponemos las propiedades básicas que tienen todos los mokepons 
 class Mokepon {
@@ -50,6 +56,14 @@ class Mokepon {
         this.foto = foto
         this.vida = vida
         this.ataques = []   // Los ataques pueden ser diferentes entre mokepones, entonces se deja vacío desde el contructor.
+        this.x = 20
+        this.y = 30
+        this.ancho = 80
+        this.alto =80
+        this.mapaFoto = new Image()
+        this.mapaFoto.src = foto
+        this.velocidadX = 0
+        this.velocidadY = 0
     }
 }
 
@@ -99,6 +113,7 @@ mokepones.forEach((mokepon)=>{
 
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
+    sectionVerMapa.style.display = 'none'
     sectionReiniciar.style.display = 'none'
     sectionHistorial.style.display = 'none'
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
@@ -150,8 +165,10 @@ function seleccionarMascotaEnemigo() {
 function secuenciaAtaque() {
 
     sectionSeleccionarMascota.style.display = 'none'
-    sectionSeleccionarAtaque.style.display = 'flex'
-    
+    //sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = 'flex'
+    intervalo = setInterval(pintarPersonaje, 50) // la función pintarPersonaje() se va a ejecutar constantemente en intervalos de 50 ms
+
     botones = document.querySelectorAll('.btnAtaque')
 
     botones.forEach((boton) => {
@@ -251,6 +268,41 @@ function reiniciarJuego() {
 
 function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function pintarPersonaje() {
+    capipepo.x = capipepo.x + capipepo.velocidadX
+    capipepo.y = capipepo.y + capipepo.velocidadY
+
+    lienzo.clearRect(0,0,mapa.width,mapa.height)
+    lienzo.drawImage(
+        capipepo.mapaFoto,
+        capipepo.x,
+        capipepo.y,
+        capipepo.ancho,
+        capipepo.alto
+    )
+}
+
+function moverArriba() {
+    capipepo.velocidadY = -5
+}
+
+function moverIzquierda() {
+    capipepo.velocidadX = -5
+}
+
+function moverAbajo() {
+    capipepo.velocidadY = 5
+}
+
+function moverDerecha() {
+    capipepo.velocidadX = 5
+}
+
+function detenerMovimiento() {
+    capipepo.velocidadX = 0
+    capipepo.velocidadY = 0
 }
 
 window.addEventListener('load', iniciarJuego)
