@@ -48,6 +48,11 @@ let lienzo = mapa.getContext("2d")
 let intervalo
 let mapaBackground = new Image()
 mapaBackground.src = './assets/mokemap.png'
+let mokebola = new Image()
+mokebola.src = './assets/mokebola.png'
+let mokebolaPosiciónX = aleatorio (100,350)
+let mokebolaPosiciónY = aleatorio (0,250)
+
 
 // las clases siempre inician con mayúscula como regla general
 //Creamos la clase Mokepon, y en su contrucctor ponemos las propiedades básicas que tienen todos los mokepons 
@@ -61,7 +66,7 @@ class Mokepon {
         this.x = 15
         this.y = 90
         this.ancho = 80
-        this.alto =80
+        this.alto = 80
         this.mapaFoto = new Image()
         this.mapaFoto.src = foto
         this.velocidadX = 0
@@ -287,6 +292,7 @@ function pintarCanvas() {
 
     lienzo.clearRect(0,0,mapa.width,mapa.height)
     lienzo.drawImage(mapaBackground,0,0,mapa.width,mapa.height)
+    lienzo.drawImage(mokebola,mokebolaPosiciónX,mokebolaPosiciónY,50,50)
     lienzo.drawImage(
         mascotaJugador.mapaFoto,
         mascotaJugador.x,
@@ -294,30 +300,18 @@ function pintarCanvas() {
         mascotaJugador.ancho,
         mascotaJugador.alto
     )
-}
-
-function moverArriba() {
-    mascotaJugador.velocidadY = -5
-}
-
-function moverIzquierda() {
-    mascotaJugador.velocidadX = -5
-}
-
-function moverAbajo() {
-    mascotaJugador.velocidadY = 5
-}
-
-function moverDerecha() {
-    mascotaJugador.velocidadX = 5
+    
+    if (mascotaJugador.velocidadX !== 0 || mascotaJugador.velocidadY !== 0) {
+        revisarColision()
+    }
 }
 
 function iniciarMovimiento(e) {
     switch (e.key) {
-        case 'ArrowUp':    moverArriba(); break
-        case 'ArrowLeft':  moverIzquierda(); break
-        case 'ArrowDown':  moverAbajo(); break
-        case 'ArrowRight': moverDerecha(); break
+        case 'w': mascotaJugador.velocidadY = -5; break
+        case 'a': mascotaJugador.velocidadX = -5; break
+        case 's': mascotaJugador.velocidadY = 5; break
+        case 'd': mascotaJugador.velocidadX = 5; break
         default: break
     }
 }
@@ -325,6 +319,29 @@ function iniciarMovimiento(e) {
 function detenerMovimiento() {
     mascotaJugador.velocidadX = 0
     mascotaJugador.velocidadY = 0
+}
+
+function revisarColision() {
+    const mokebolaUp = mokebolaPosiciónY
+    const mokebolaDown = mokebolaPosiciónY + 50
+    const mokebolaLeft = mokebolaPosiciónX
+    const mokebolaRight = mokebolaPosiciónX + 50
+
+    const mokeponUp = mascotaJugador.y
+    const mokeponDown = mascotaJugador.y + mascotaJugador.alto
+    const mokeponLeft = mascotaJugador.x
+    const mokeponRight = mascotaJugador.x + mascotaJugador.ancho
+
+    if (
+        mokeponDown < mokebolaUp ||     //AbajoMokepon menor que ArribaMokebola
+        mokeponUp > mokebolaDown ||     //ArribaMokepon mayor que AbajoMokebola
+        mokeponRight < mokebolaLeft ||  //DerechaMokepon menor que IzquierdaMokebola
+        mokeponLeft > mokebolaRight     //IzquierdaMokepon mayor que DerechaMokebola
+        ) {
+        return                          // Sí alguna condición es verdadera no hay colisión
+    }
+
+    detenerMovimiento()
 }
 
 window.addEventListener('load', iniciarJuego)
