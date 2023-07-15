@@ -20,7 +20,6 @@ h1 {
 h2 {
   color: #AFD3E2;
   font-size: 20px;
-  width: 500px;
   text-align: center;
 }
 
@@ -170,13 +169,8 @@ button:hover {
   text-align: center;
 }
 
-@media (max-width: 360px) {
-  .tarjetas {
-    flex-direction: column;
-  }
-
-  #contenedor-ataques {
-    display: flex;
+@media (max-width: 400px) {
+  #contenedor-tarjetas {
     flex-direction: column;
   }
 }

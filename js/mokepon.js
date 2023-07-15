@@ -50,8 +50,13 @@ let mapaBackground = new Image()
 mapaBackground.src = './assets/mokemap.png'
 let mokebola = new Image()
 mokebola.src = './assets/mokebola.png'
-let mokebolaPosiciónX = aleatorio (100,450)
-let mokebolaPosiciónY = aleatorio (0,325)
+
+let mapaWidth = window.innerWidth
+
+if (mapaWidth > 500) { mapaWidth = 500 }
+
+let mokebolaPosiciónX = aleatorio (100,mapaWidth - 70)
+let mokebolaPosiciónY = aleatorio (0,(mapaWidth - 70)*3/4)
 
 
 // las clases siempre inician con mayúscula como regla general
@@ -64,7 +69,7 @@ class Mokepon {
         this.vida = vida
         this.ataques = []   // Los ataques pueden ser diferentes entre mokepones, entonces se deja vacío desde el contructor.
         this.x = 20
-        this.y = 130
+        this.y = 100
         this.ancho = 80
         this.alto = 80
         this.mapaFoto = new Image()
@@ -277,8 +282,8 @@ function aleatorio(min, max) {
 }
 
 function iniciarMapa() {
-    mapa.width = 500
-    mapa.height = 375
+    mapa.width = mapaWidth - 20
+    mapa.height = (mapaWidth - 20)*3/4
     intervalo = setInterval(pintarCanvas, 50) // la función pintarCanvas() se va a ejecutar constantemente en intervalos de 50 ms
 
     window.addEventListener('keydown', iniciarMovimiento)
@@ -341,6 +346,7 @@ function revisarColision() {
     }
 
     detenerMovimiento()
+    clearInterval(intervalo)
     sectionVerMapa.style.display = 'none'
     sectionSeleccionarAtaque.style.display = 'flex'
 }
