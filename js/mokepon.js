@@ -50,8 +50,8 @@ let mapaBackground = new Image()
 mapaBackground.src = './assets/mokemap.png'
 let mokebola = new Image()
 mokebola.src = './assets/mokebola.png'
-let mokebolaPosiciónX = aleatorio (100,350)
-let mokebolaPosiciónY = aleatorio (0,250)
+let mokebolaPosiciónX = aleatorio (100,450)
+let mokebolaPosiciónY = aleatorio (0,325)
 
 
 // las clases siempre inician con mayúscula como regla general
@@ -63,8 +63,8 @@ class Mokepon {
         this.foto = foto
         this.vida = vida
         this.ataques = []   // Los ataques pueden ser diferentes entre mokepones, entonces se deja vacío desde el contructor.
-        this.x = 15
-        this.y = 90
+        this.x = 20
+        this.y = 130
         this.ancho = 80
         this.alto = 80
         this.mapaFoto = new Image()
@@ -172,7 +172,6 @@ function seleccionarMascotaEnemigo() {
 function secuenciaAtaque() {
 
     sectionSeleccionarMascota.style.display = 'none'
-    //sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'flex'
     
     iniciarMapa()
@@ -278,8 +277,8 @@ function aleatorio(min, max) {
 }
 
 function iniciarMapa() {
-    mapa.width = 400
-    mapa.height = 300
+    mapa.width = 500
+    mapa.height = 375
     intervalo = setInterval(pintarCanvas, 50) // la función pintarCanvas() se va a ejecutar constantemente en intervalos de 50 ms
 
     window.addEventListener('keydown', iniciarMovimiento)
@@ -308,10 +307,10 @@ function pintarCanvas() {
 
 function iniciarMovimiento(e) {
     switch (e.key) {
-        case 'w': mascotaJugador.velocidadY = -5; break
-        case 'a': mascotaJugador.velocidadX = -5; break
-        case 's': mascotaJugador.velocidadY = 5; break
-        case 'd': mascotaJugador.velocidadX = 5; break
+        case 'w': mascotaJugador.velocidadY = -10; break
+        case 'a': mascotaJugador.velocidadX = -10; break
+        case 's': mascotaJugador.velocidadY = 10; break
+        case 'd': mascotaJugador.velocidadX = 10; break
         default: break
     }
 }
@@ -342,6 +341,8 @@ function revisarColision() {
     }
 
     detenerMovimiento()
+    sectionVerMapa.style.display = 'none'
+    sectionSeleccionarAtaque.style.display = 'flex'
 }
 
 window.addEventListener('load', iniciarJuego)

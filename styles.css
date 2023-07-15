@@ -12,15 +12,16 @@ section {
   align-items: center;
 }
 
-.titulo {
+h1 {
   color: #F6F1F1;
   font-size: 32px;
 }
 
-.subtitulo {
+h2 {
   color: #AFD3E2;
   font-size: 20px;
-  width: 400px;
+  width: 500px;
+  text-align: center;
 }
 
 #contenedor-tarjetas {
